@@ -15,7 +15,7 @@ setbuf(stdin, nil)
 var source: String?
 var category: String?
 
-var args = CommandLine.arguments
+let args = ProcessInfo.processInfo.arguments
 var i = 0
 while i < args.count {
     switch args[i] {
