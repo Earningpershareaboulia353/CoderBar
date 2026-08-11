@@ -45,8 +45,8 @@ jobs:
             echo "Strict Swift build emitted diagnostics" >&2
             exit 1
           fi
-          bash ./Scripts/build.sh
-          bash ./Scripts/package.sh
+          zsh ./Scripts/build.sh
+          zsh ./Scripts/package.sh
           cp "dist/CoderBar-${CODERBAR_VERSION}-macos.zip" dist/CoderBar-macos.zip
 
       - name: Verify app and archive
