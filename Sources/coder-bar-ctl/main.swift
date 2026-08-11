@@ -3,7 +3,7 @@ import CoderBarKit
 
 // coder-bar-ctl configure|deconfigure|status|discover [--home PATH] [--port N]
 
-let args = CommandLine.arguments
+let args = ProcessInfo.processInfo.arguments
 guard args.count >= 2 else {
     print("usage: coder-bar-ctl configure|deconfigure|status|discover [--home PATH] [--port N]")
     exit(2)
