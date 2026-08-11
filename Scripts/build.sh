@@ -2,7 +2,18 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-VERSION=0.5.5
+VERSION="${CODERBAR_VERSION:-0.5.5}"
+BUILD_NUMBER="${CODERBAR_BUILD_NUMBER:-1}"
+
+if [[ ! "$VERSION" =~ '^[0-9]+\.[0-9]+\.[0-9]+$' ]]; then
+    echo "Invalid CODERBAR_VERSION: $VERSION (expected MAJOR.MINOR.PATCH)" >&2
+    exit 1
+fi
+
+if [[ ! "$BUILD_NUMBER" =~ '^[1-9][0-9]*$' ]]; then
+    echo "Invalid CODERBAR_BUILD_NUMBER: $BUILD_NUMBER (expected a positive integer)" >&2
+    exit 1
+fi
 swift build -c release
 
 DIST=dist
@@ -42,7 +53,7 @@ cat > "$DIST/CoderBar.app/Contents/Info.plist" <<PLIST
 	<key>CFBundleShortVersionString</key>
 	<string>$VERSION</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$BUILD_NUMBER</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>LSUIElement</key>
