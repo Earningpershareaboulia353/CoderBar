@@ -1,0 +1,17 @@
+.DS_Store
+.build/
+dist/
+
+# Website dependencies and generated output
+website/node_modules/
+website/.next/
+website/.vinext/
+website/dist/
+website/.wrangler/
+website/coverage/
+website/*.log
+
+# Local runtime state
+.coderbar/
+*.xcuserstate
+DerivedData/
