@@ -55,8 +55,8 @@ public final class EventServer: @unchecked Sendable {
     }
 
     private func receiveLoop(_ conn: NWConnection, buffer_ initial: Data) {
-        var buffer = initial
         conn.receive(minimumIncompleteLength: 1, maximumLength: 1 << 20) { [weak self] data, _, isComplete, error in
+            var buffer = initial
             if let data, !data.isEmpty {
                 buffer.append(data)
             }
@@ -81,10 +81,19 @@ public final class EventServer: @unchecked Sendable {
     }
 
     private func parse(_ data: Data) {
-        guard let frame = try? JSONDecoder().decode(WireFrame.self, from: data) else {
+        guard !data.isEmpty else { return }
+
+        let frame: WireFrame
+        do {
+            frame = try JSONDecoder().decode(WireFrame.self, from: data)
+        } catch {
+            NSLog("EventServer rejected invalid frame: \(error)")
             return
         }
-        guard let raw = frame.payload else { return }
+        guard let raw = frame.payload else {
+            NSLog("EventServer rejected frame without payload")
+            return
+        }
         var payload = HookPayload.wrap(source: frame.source, category: frame.category, payload: raw)
         if payload.source == nil {
             if let s = frame.source, !s.isEmpty { payload.source = s }
