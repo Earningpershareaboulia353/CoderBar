@@ -1,0 +1,79 @@
+name: Build and release CoderBar
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: coderbar-release-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build ARM64 app and publish release
+    runs-on: macos-14
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Define release version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="0.6.${GITHUB_RUN_NUMBER}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and package
+        shell: bash
+        env:
+          CODERBAR_VERSION: ${{ steps.version.outputs.version }}
+          CODERBAR_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          set -euo pipefail
+          swift package clean
+          swift build
+          ./Scripts/build.sh
+          ./Scripts/package.sh
+          cp "dist/CoderBar-${CODERBAR_VERSION}-macos.zip" dist/CoderBar-macos.zip
+
+      - name: Verify app and archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          lipo -archs dist/CoderBar.app/Contents/MacOS/coder-bar | tr ' ' '\n' | grep -qx arm64
+          codesign --verify --deep --strict dist/CoderBar.app
+          verify_dir="${RUNNER_TEMP}/coderbar-release"
+          mkdir -p "$verify_dir"
+          ditto -x -k dist/CoderBar-macos.zip "$verify_dir"
+          codesign --verify --deep --strict "$verify_dir/CoderBar.app"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CoderBar-${{ steps.version.outputs.version }}-macos
+          path: dist/CoderBar-macos.zip
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release create "$RELEASE_TAG" \
+            dist/CoderBar-macos.zip \
+            --target "$GITHUB_SHA" \
+            --title "CoderBar ${RELEASE_VERSION}" \
+            --generate-notes
