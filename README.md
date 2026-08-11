@@ -145,6 +145,12 @@ The app exposes opt-in debug environment variables for deterministic UI checks:
 
 Visit the [CoderBar product website](https://coderbar-macos.jason09121.chatgpt.site). Its source lives in [`website/`](website/) and includes the complete product narrative, feature showcase, privacy story, download flow, responsive layouts, and social preview metadata.
 
+## Automated releases
+
+Every update merged into `main` runs the macOS release workflow on an Apple Silicon runner. The workflow builds CoderBar, verifies the ARM64 executable and app signature, tests the packaged ZIP, uploads the build artifact, and publishes a GitHub Release.
+
+Release versions use `0.6.<workflow run number>`. A release tag is never silently overwritten: a duplicate tag or failed validation stops the workflow.
+
 ---
 
 <p align="center">Built for developers who want their agents nearby — not in the way.</p>
