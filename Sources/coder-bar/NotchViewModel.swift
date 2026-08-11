@@ -41,7 +41,9 @@ final class NotchViewModel: ObservableObject {
                 withTimeInterval: model?.hoverDelaySeconds ?? 0.15,
                 repeats: false
             ) { [weak self] _ in
-                Task { @MainActor in self?.expand() }
+                MainActor.assumeIsolated {
+                    self?.expand()
+                }
             }
         } else {
             hoverTimer?.invalidate()
@@ -71,7 +73,9 @@ final class NotchViewModel: ObservableObject {
                 withTimeInterval: model?.alertDwellSeconds ?? 5,
                 repeats: false
             ) { [weak self] _ in
-                Task { @MainActor in self?.collapseIfMouseOutside() }
+                MainActor.assumeIsolated {
+                    self?.collapseIfMouseOutside()
+                }
             }
         }
     }
@@ -97,7 +101,7 @@ final class NotchViewModel: ObservableObject {
               collapseTimer == nil
         else { return }
         collapseTimer = Timer.scheduledTimer(withTimeInterval: 0.30, repeats: false) { [weak self] _ in
-            Task { @MainActor in
+            MainActor.assumeIsolated {
                 self?.collapseTimer = nil
                 self?.collapseIfMouseOutside()
             }
@@ -163,7 +167,9 @@ final class NotchViewModel: ObservableObject {
         isAlertFlashing = true
         alertTimer?.invalidate()
         alertTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-            Task { @MainActor in self?.isAlertFlashing = false }
+            MainActor.assumeIsolated {
+                self?.isAlertFlashing = false
+            }
         }
     }
 
