@@ -51,9 +51,9 @@ export default function Home() {
           <a href="#features">Features</a>
           <a href="#modes">Modes</a>
           <a href="#privacy">Privacy</a>
-          <a href="https://github.com/yusonghuilife/CoderBar">GitHub</a>
+          <a href="https://github.com/helloyulife/CoderBar">GitHub</a>
         </div>
-        <a className="nav-download" href="https://github.com/yusonghuilife/CoderBar/releases/latest/download/CoderBar-macos.zip">
+        <a className="nav-download" href="https://github.com/helloyulife/CoderBar/releases/latest/download/CoderBar-macos.zip">
           <span className="apple">●</span> Download
         </a>
       </nav>
@@ -71,7 +71,7 @@ export default function Home() {
             directly from the top of your screen.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="https://github.com/yusonghuilife/CoderBar/releases/latest/download/CoderBar-macos.zip">
+            <a className="button button-primary" href="https://github.com/helloyulife/CoderBar/releases/latest/download/CoderBar-macos.zip">
               Download for macOS <span>↘</span>
             </a>
             <a className="button button-quiet" href="#features">
@@ -223,14 +223,14 @@ export default function Home() {
         <span className="cta-code">⌘ + SPACE FOR YOUR AGENTS</span>
         <h2>Keep the work moving.</h2>
         <p>Bring Codex and Claude into one calm, native surface.</p>
-        <a className="button button-primary button-large" href="https://github.com/yusonghuilife/CoderBar/releases/latest/download/CoderBar-macos.zip">
+        <a className="button button-primary button-large" href="https://github.com/helloyulife/CoderBar/releases/latest/download/CoderBar-macos.zip">
           Download CoderBar <span>↘</span>
         </a>
       </section>
 
       <footer className="footer shell">
         <a className="brand" href="#top"><span className="brand-mark"><span>&gt;_</span></span><span>CoderBar</span></a>
-        <p><a href="https://github.com/yusonghuilife/CoderBar">GitHub</a> · Native agent control for macOS.</p>
+        <p><a href="https://github.com/helloyulife/CoderBar">GitHub</a> · Native agent control for macOS.</p>
         <span>© 2026 CoderBar</span>
       </footer>
     </main>
