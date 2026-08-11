@@ -272,30 +272,41 @@ final class AppModel: ObservableObject {
     private func startOn(_ port: UInt16) throws {
         let store = try SessionStore(dataDir: dataDir)
         self.store = store
-        let server = try EventServer(port: port) { [weak self] payload in
+        let server = try EventServer(port: port) { payload in
             Task { @MainActor in
-                self?.handle(payload)
+                AppModel.shared.handle(payload)
             }
-        } onReady: { [weak self] boundPort in
+        } onReady: { boundPort in
             let portFile = FileManager.default.homeDirectoryForCurrentUser
                 .appendingPathComponent(".coderbar/port")
             do {
                 try String(boundPort).write(to: portFile, atomically: true, encoding: .utf8)
                 Task { @MainActor in
-                    self?.serverPort = boundPort
-                    self?.isTracking = true
+                    AppModel.shared.serverPort = boundPort
+                    AppModel.shared.isTracking = true
                 }
             } catch {
                 NSLog("could not publish event server port: \(error)")
+                let message = error.localizedDescription
                 Task { @MainActor in
-                    self?.serverError = "Hook 端口文件写入失败：\(error.localizedDescription)"
-                    self?.isTracking = false
+                    AppModel.shared.serverError = "Hook 端口文件写入失败：\(message)"
+                    AppModel.shared.isTracking = false
                 }
             }
         }
         server.start()
         self.server = server
         serverPort = server.port
+    }
+
+    func shutdown() {
+        desktopSessionMonitor?.cancel()
+        desktopSessionMonitor = nil
+        server?.stop()
+        server = nil
+        islandController?.shutdown()
+        islandController = nil
+        isTracking = false
     }
 
     private func handle(_ payload: HookPayload) {
