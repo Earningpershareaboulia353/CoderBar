@@ -1,5 +1,5 @@
 import SwiftUI
-import AppKit
+@preconcurrency import AppKit
 import CoreGraphics
 import CoderBarKit
 
@@ -103,7 +103,7 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         fatalError("init(coder:) is not supported")
     }
 
-    deinit {
+    isolated deinit {
         resizeTask?.cancel()
         for monitor in eventMonitors {
             NSEvent.removeMonitor(monitor)
@@ -325,7 +325,7 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         guard eventMonitors.isEmpty else { return }
 
         if let globalClick = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown, handler: { [weak self] _ in
-            Task { @MainActor in
+            MainActor.assumeIsolated {
                 self?.handleOutsideClick(at: NSEvent.mouseLocation)
             }
         }) {
@@ -335,7 +335,7 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         }
 
         if let localClick = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown, handler: { [weak self] event in
-            Task { @MainActor in
+            MainActor.assumeIsolated {
                 self?.handleOutsideClick(at: NSEvent.mouseLocation)
             }
             return event
@@ -358,7 +358,9 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         }
 
         if let globalMove = NSEvent.addGlobalMonitorForEvents(matching: .mouseMoved, handler: { [weak self] _ in
-            Task { @MainActor in self?.handleMouseMoved() }
+            MainActor.assumeIsolated {
+                self?.handleMouseMoved()
+            }
         }) {
             eventMonitors.append(globalMove)
         } else {
@@ -366,7 +368,9 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         }
 
         if let localMove = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { [weak self] event in
-            Task { @MainActor in self?.handleMouseMoved() }
+            MainActor.assumeIsolated {
+                self?.handleMouseMoved()
+            }
             return event
         }) {
             eventMonitors.append(localMove)
@@ -457,7 +461,7 @@ final class NotchPanelController: NSWindowController, ObservableObject {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            Task { @MainActor in
+            MainActor.assumeIsolated {
                 guard let self, self.model.displayTargetID == "focus" else { return }
                 self.displayTargetDidChange()
             }
@@ -469,7 +473,9 @@ final class NotchPanelController: NSWindowController, ObservableObject {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            Task { @MainActor in self?.displayTargetDidChange() }
+            MainActor.assumeIsolated {
+                self?.displayTargetDidChange()
+            }
         }
         notificationObservers.append(screenObserver)
     }
