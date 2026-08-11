@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Define release version
         id: version
@@ -40,7 +40,11 @@ jobs:
         run: |
           set -euo pipefail
           swift package clean
-          swift build
+          swift build -Xswiftc -strict-concurrency=complete 2>&1 | tee "${RUNNER_TEMP}/swift-build.log"
+          if grep -E 'warning:|error:' "${RUNNER_TEMP}/swift-build.log"; then
+            echo "Strict Swift build emitted diagnostics" >&2
+            exit 1
+          fi
           ./Scripts/build.sh
           ./Scripts/package.sh
           cp "dist/CoderBar-${CODERBAR_VERSION}-macos.zip" dist/CoderBar-macos.zip
@@ -57,7 +61,7 @@ jobs:
           codesign --verify --deep --strict "$verify_dir/CoderBar.app"
 
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: CoderBar-${{ steps.version.outputs.version }}-macos
           path: dist/CoderBar-macos.zip
