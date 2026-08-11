@@ -1,5 +1,5 @@
 import SwiftUI
-@preconcurrency import AppKit
+import AppKit
 import CoreGraphics
 import CoderBarKit
 
@@ -103,15 +103,18 @@ final class NotchPanelController: NSWindowController, ObservableObject {
         fatalError("init(coder:) is not supported")
     }
 
-    isolated deinit {
+    func shutdown() {
         resizeTask?.cancel()
+        resizeTask = nil
         for monitor in eventMonitors {
             NSEvent.removeMonitor(monitor)
         }
+        eventMonitors.removeAll()
         for observer in notificationObservers {
             NotificationCenter.default.removeObserver(observer)
             NSWorkspace.shared.notificationCenter.removeObserver(observer)
         }
+        notificationObservers.removeAll()
     }
 
     private func buildWindow() {
